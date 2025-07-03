@@ -1,5 +1,5 @@
-from selenium.webdriver.remote.webdriver import WebDriver
+from browser import Browser
 
 
-def test_page(driver: WebDriver):
-    driver.get("https://demoqa.com/")
+def test_page(browser: Browser):
+    browser.goto_url("https://demoqa.com/")
