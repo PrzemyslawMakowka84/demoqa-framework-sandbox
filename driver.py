@@ -1,6 +1,7 @@
 from selenium import webdriver
 from enums import BrowserTypes
 
+
 class Driver:
     def __init__(self):
         self.__driver: webdriver = None
