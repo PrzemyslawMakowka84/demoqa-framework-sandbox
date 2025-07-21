@@ -3,8 +3,8 @@ from enums import BrowserTypes
 
 
 class Browser:
-    def __init__(self, browser_type: BrowserTypes):
-        self.__driver = Driver()
+    def __init__(self, browser_type: BrowserTypes, log):
+        self.__driver = Driver(log)
         match browser_type:
             case BrowserTypes.CHROME:
                 self.__driver.initial_driver(BrowserTypes.CHROME)
