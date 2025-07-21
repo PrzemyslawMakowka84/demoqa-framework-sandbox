@@ -1,21 +1,24 @@
 from selenium import webdriver
 from enums import BrowserTypes
 
-
 class Driver:
-    def __init__(self):
+    def __init__(self, log):
         self.__driver: webdriver = None
+        self.__log = log
 
     def initial_driver(self, browser_type: BrowserTypes) -> webdriver:
         if not self.__driver:
+            self.__log.info("Starting initializing browser...")
             match browser_type:
                 case BrowserTypes.CHROME:
                     chrome_options = webdriver.ChromeOptions()
                     chrome_options.add_argument("--start-maximized")
                     self.__driver = webdriver.Chrome(options=chrome_options)
+                    self.__log.info("Chrome browser was initialized")
                 case BrowserTypes.FIREFOX:
                     self.__driver = webdriver.Firefox()
                     self.__driver.maximize_window()
+                    self.__log.info("Firefox browser was initialized")
 
         return self.driver
 
