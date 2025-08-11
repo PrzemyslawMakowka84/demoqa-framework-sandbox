@@ -1,3 +1,4 @@
+import allure
 from selenium import webdriver
 from enums import BrowserTypes
 
