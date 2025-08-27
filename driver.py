@@ -1,13 +1,13 @@
-import allure
+from selenium.webdriver.remote.webdriver import WebDriver
 from selenium import webdriver
 from enums import BrowserTypes
 
 class Driver:
     def __init__(self, log):
-        self.__driver: webdriver = None
+        self.__driver: WebDriver | None = None
         self.__log = log
 
-    def initial_driver(self, browser_type: BrowserTypes) -> webdriver:
+    def initial_driver(self, browser_type: BrowserTypes) -> WebDriver:
         if not self.__driver:
             self.__log.info("Starting initializing browser")
             match browser_type:
@@ -26,7 +26,7 @@ class Driver:
         return self.driver
 
     @property
-    def driver(self) -> webdriver:
+    def driver(self) -> WebDriver:
         if self.__driver:
             return self.__driver
         else:
