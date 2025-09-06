@@ -21,11 +21,11 @@ def browser_type(request):
     return request.config.getoption("--browser-type")
 
 @pytest.fixture
-def log(allure_text: list[str]) -> Log:
-    return Log(allure_text)
+def log(allure_list_log) -> Log:
+    return Log(allure_list_log)
 
 @pytest.fixture
-def allure_text() -> list[str]:
+def allure_list_log() -> list[str]:
     return []
 
 def pytest_addoption(parser):

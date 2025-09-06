@@ -40,5 +40,6 @@ class Driver:
     def quit(self):
         if self.__driver:
             self.__log.info("driver quit()")
+            self.__log.attach_to_allure()
             self.__driver.quit()
             self.__driver = None
