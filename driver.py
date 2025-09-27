@@ -9,7 +9,6 @@ class Driver:
 
     def initial_driver(self, browser_type: BrowserTypes) -> WebDriver:
         if not self.__driver:
-            self.__log.info("Starting initializing browser")
             match browser_type:
                 case BrowserTypes.CHROME:
                     self.__log.info("Setup Chrome browser")
@@ -40,6 +39,5 @@ class Driver:
     def quit(self):
         if self.__driver:
             self.__log.info("driver quit()")
-            self.__log.attach_to_allure()
             self.__driver.quit()
             self.__driver = None
