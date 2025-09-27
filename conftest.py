@@ -14,15 +14,14 @@ def browser_enum(browser_type: str) -> BrowserTypes:
 def browser(browser_enum, log):
     brw = Browser(browser_enum, log)
     yield brw
-    brw.quit_driver()
 
 @pytest.fixture
 def browser_type(request):
     return request.config.getoption("--browser-type")
 
 @pytest.fixture
-def log(allure_list_log) -> Log:
-    return Log(allure_list_log)
+def log() -> Log:
+    return Log()
 
 @pytest.fixture
 def allure_list_log() -> list[str]:
