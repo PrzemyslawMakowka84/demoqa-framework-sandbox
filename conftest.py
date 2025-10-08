@@ -1,19 +1,24 @@
+from typing import Any, Generator
 import pytest
-from browser import Browser
+from selenium.webdriver.ie.webdriver import WebDriver
+from driver import Driver
 from enums import BrowserTypes
 from log import Log
+from pages.main_page import MainPage
+
 
 @pytest.fixture
-def browser_enum(browser_type: str) -> BrowserTypes:
+def browser_name(browser_type: str) -> BrowserTypes:
     try:
         return BrowserTypes(browser_type.lower())
     except ValueError:
         raise ValueError(f"Only {BrowserTypes.CHROME} or {BrowserTypes.FIREFOX} is supported!")
 
 @pytest.fixture
-def browser(browser_enum, log):
-    brw = Browser(browser_enum, log)
-    yield brw
+def driver(browser_name, log) -> Generator[WebDriver, None, None]:
+    drv = Driver(browser_name, log)
+    yield drv.initial_driver()
+    drv.quit()
 
 @pytest.fixture
 def browser_type(request):
@@ -24,8 +29,8 @@ def log() -> Log:
     return Log()
 
 @pytest.fixture
-def allure_list_log() -> list[str]:
-    return []
+def main_page(driver: Driver) -> MainPage:
+    return MainPage(driver)
 
 def pytest_addoption(parser):
     parser.addoption("--browser-type", type=str, default="chrome", help="Browser type")

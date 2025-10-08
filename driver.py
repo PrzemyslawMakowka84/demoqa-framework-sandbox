@@ -1,43 +1,41 @@
-from selenium.webdriver.remote.webdriver import WebDriver
 from selenium import webdriver
+from selenium.webdriver.ie.webdriver import WebDriver
 from enums import BrowserTypes
 
 class Driver:
-    def __init__(self, log):
-        self.__driver: WebDriver | None = None
+    def __init__(self, browser_name: str, log):
+        self.driver = None
         self.__log = log
+        self.__browser_type = browser_name
 
-    def initial_driver(self, browser_type: BrowserTypes) -> WebDriver:
-        if not self.__driver:
-            match browser_type:
+
+    def initial_driver(self) -> WebDriver:
+        if not self.driver:
+            match self.__browser_type:
                 case BrowserTypes.CHROME:
                     self.__log.info("Setup Chrome browser")
                     chrome_options = webdriver.ChromeOptions()
                     chrome_options.add_argument("--start-maximized")
-                    self.__driver = webdriver.Chrome(options=chrome_options)
+                    self.driver = webdriver.Chrome(options=chrome_options)
                     self.__log.info("Chrome browser was initialized")
                 case BrowserTypes.FIREFOX:
                     self.__log.info("Setup Firefox browser")
-                    self.__driver = webdriver.Firefox()
-                    self.__driver.maximize_window()
+                    self.driver = webdriver.Firefox()
+                    self.driver.maximize_window()
                     self.__log.info("Firefox browser was initialized")
 
         return self.driver
 
-    @property
-    def driver(self) -> WebDriver:
-        if self.__driver:
-            return self.__driver
-        else:
-            raise ValueError("driver must be initialized first!")
-
     def get(self, url):
+        if not self.driver:
+            raise RuntimeError("Driver is not initialed!")
         if url:
             self.__log.info(f"Navigate to {url}")
-            self.__driver.get(url)
+            self.driver.get(url)
+
 
     def quit(self):
-        if self.__driver:
+        if self.driver:
             self.__log.info("driver quit()")
-            self.__driver.quit()
-            self.__driver = None
+            self.driver.quit()
+            self.driver = None
