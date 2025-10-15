@@ -1,6 +1,5 @@
 from typing import Any, Generator
 import pytest
-from selenium.webdriver.ie.webdriver import WebDriver
 from driver import Driver
 from enums import BrowserTypes
 from log import Log
@@ -15,9 +14,9 @@ def browser_name(browser_type: str) -> BrowserTypes:
         raise ValueError(f"Only {BrowserTypes.CHROME} or {BrowserTypes.FIREFOX} is supported!")
 
 @pytest.fixture
-def driver(browser_name, log) -> Generator[WebDriver, None, None]:
+def driver(browser_name, log) -> Generator[Driver, None, None]:
     drv = Driver(browser_name, log)
-    yield drv.initial_driver()
+    yield drv
     drv.quit()
 
 @pytest.fixture

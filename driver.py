@@ -1,15 +1,16 @@
 from selenium import webdriver
-from selenium.webdriver.ie.webdriver import WebDriver
+from selenium.webdriver.remote.webdriver import WebDriver
 from enums import BrowserTypes
 
 class Driver:
     def __init__(self, browser_name: str, log):
-        self.driver = None
+        self.driver: WebDriver | None = None
         self.__log = log
         self.__browser_type = browser_name
+        self.initial_driver()
 
 
-    def initial_driver(self) -> WebDriver:
+    def initial_driver(self):
         if not self.driver:
             match self.__browser_type:
                 case BrowserTypes.CHROME:
@@ -24,7 +25,6 @@ class Driver:
                     self.driver.maximize_window()
                     self.__log.info("Firefox browser was initialized")
 
-        return self.driver
 
     def get(self, url):
         if not self.driver:
@@ -33,6 +33,9 @@ class Driver:
             self.__log.info(f"Navigate to {url}")
             self.driver.get(url)
 
+    @property
+    def current_url(self):
+        return self.driver.current_url
 
     def quit(self):
         if self.driver:
