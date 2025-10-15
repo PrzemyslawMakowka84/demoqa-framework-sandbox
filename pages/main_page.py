@@ -4,7 +4,11 @@ class MainPage:
     URL = "https://demoqa.com/"
 
     def __init__(self, driver: Driver):
-        self.__driver = driver
+        self.driver = driver
 
     def open_page(self):
-        self.__driver.get(self.URL)
+        self.driver.get(self.URL)
+
+    @property
+    def current_url(self) -> str:
+        return self.driver.current_url
